@@ -1,5 +1,6 @@
 ﻿using static System.Net.Mime.MediaTypeNames;
 using System.Drawing;
+using System.Security.Cryptography.X509Certificates;
 
 
 namespace Workshop5_DoublyLinkedLists.Cor;
@@ -15,6 +16,7 @@ public class DoublyLinkedLists<T>
         _head = null;
     }
 
+    //1.0
     public void InsertAtBeginning(T data)
     {
         var newNode = new DoubleNode<T>(data);
@@ -30,6 +32,8 @@ public class DoublyLinkedLists<T>
             _head = newNode;
         }
     }
+
+    //1.1
     public void InsertAtEnd(T data)
     {
         var newNode = new DoubleNode<T>(data);
@@ -47,30 +51,155 @@ public class DoublyLinkedLists<T>
             }
         }
     }
-    
-    public string GetForward()
-    {    
-        var output = string.Empty;
+
+    //2
+    public string PrintForward()
+    {
+        List<T> datos = new List<T>();
         var current = _head;
 
         while (current != null)
         {
-            output += ($"{current.Data} <--> ");
+            datos.Add(current.Data!);
             current = current.Next;
         }
-        return output. Substring(0, output.Length -5);
+
+        datos.Sort(); // ordena alfabéticamente si T es string
+
+        string resultado = string.Empty;
+        foreach (var item in datos)
+        {
+            resultado += $"{item} <--> ";
+        }
+
+        return resultado.Length > 5 ? resultado.Substring(0, resultado.Length - 5) : resultado;
     }
 
-    public string GetBackward()
+    //3
+    public string PrintBackwards()
     {
         var output = string.Empty;
         var current = _tail;
 
         while (current != null)
         {
-            output += ($"{current.Data} <--> ");
+            output += $"{current.Data} <--> ";
             current = current.Prev;
         }
-        return output.Substring(0, output.Length -5);
+
+        return output.Length > 5 ? output.Substring(0, output.Length - 5) : output;
     }
+
+    //4    
+    public string DesendingOrder()
+    {
+        List<T> datos = new List<T>();
+        var current = _head;
+        while (current != null)
+        {
+            datos.Add(current.Data!);
+            current = current.Next;
+        }
+        datos.Sort();
+        datos.Reverse();
+        return string.Join(" <--> ", datos);
+    }
+
+    //5
+    public void ShowMode()
+    {
+
+        if (_head == null)
+        {
+            Console.WriteLine("The list is empty.");
+            return;
+        }
+        Dictionary<T, int> frequency = new Dictionary<T, int>();
+
+        var current = _head;
+        var ouput = string.Empty;
+
+        while (current != null)
+        {
+            if (frequency.ContainsKey(current.Data!))
+            {
+                frequency[current.Data!]++;
+            }
+            else
+            {
+                frequency[current.Data!] = 1;
+            }
+            current = current.Next;
+        }
+        /*foreach (var par in frequency.OrderBy(p => p.Key))
+        {
+            
+            Console.WriteLine($"The mode with plus option chosen is -> {par.Key}: {par.Value}");
+        }
+        */
+        int maxFrequency = frequency.Values.Max();
+        var modes = frequency.Where(pair => pair.Value == maxFrequency).Select(pair => pair.Key).ToList();
+        Console.WriteLine($"Mode(s): { string.Join(", ", modes)} with a frequency of {maxFrequency}");
+    }
+
+    //6 
+    public void ShowGraph()
+    {
+        // ShowMode();
+
+        if (_head == null)
+        {
+            Console.WriteLine("The list is empty.");
+            return;
+        }
+        Dictionary<T, int> frequency = new Dictionary<T, int>();
+
+        var current = _head;
+        var ouput = string.Empty;
+
+        while (current != null)
+        {
+            if (frequency.ContainsKey(current.Data!))
+            {
+                frequency[current.Data!]++;
+            }
+            else
+            {
+                frequency[current.Data!] = 1;
+            }
+            current = current.Next;
+        }
+
+        Console.WriteLine("\t----- Mode graph: ------ ");
+        foreach (var par in frequency.OrderBy(p => p.Key))
+        {
+            
+            Console.WriteLine($"{par.Key,10}: {par.Value,2}");
+        }
+        int maxFrequency = frequency.Values.Max();
+        var modes = frequency.Where(pair => pair.Value == maxFrequency).Select(pair => pair.Key).ToList();
+    }
+    //7
+    public void Exist()
+    {
+        List<T> datos = new List<T>();
+        var current = _head;
+        while (current != null)
+        {
+            datos.Add(current.Data!);
+            current = current.Next;
+        }
+        Console.WriteLine("Enter the data to search for:");
+        var input = Console.ReadLine();
+        if (input != null && datos.Contains((T)Convert.ChangeType(input, typeof(T))))
+        {
+            Console.WriteLine($"The data '{input}' exists in the list.");
+        }
+        else
+        {
+            Console.WriteLine($"The data '{input}' does not exist in the list.");
+        }
+
+    }
+
 }
