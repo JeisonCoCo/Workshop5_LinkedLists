@@ -145,40 +145,32 @@ public class DoublyLinkedLists<T>
     //6 
     public void ShowGraph()
     {
-        // ShowMode();
-
         if (_head == null)
         {
             Console.WriteLine("The list is empty.");
             return;
         }
-        Dictionary<T, int> frequency = new Dictionary<T, int>();
 
+        Dictionary<T, int> frequency = new Dictionary<T, int>();
         var current = _head;
-        var ouput = string.Empty;
 
         while (current != null)
         {
-            if (frequency.ContainsKey(current.Data!))
-            {
-                frequency[current.Data!]++;
-            }
+            if (frequency.ContainsKey(current.Data))
+                frequency[current.Data]++;
             else
-            {
-                frequency[current.Data!] = 1;
-            }
+                frequency[current.Data] = 1;
+
             current = current.Next;
         }
 
-        Console.WriteLine("\t----- Mode graph: ------ ");
-        foreach (var par in frequency.OrderBy(p => p.Key))
+        Console.WriteLine("Graph of frequencies:");
+        foreach (var pair in frequency.OrderBy(p => p.Key))
         {
-            
-            Console.WriteLine($"{par.Key,10}: {par.Value,2}");
+            Console.WriteLine($"{pair.Key}: {new string('*', pair.Value)}");
         }
-        int maxFrequency = frequency.Values.Max();
-        var modes = frequency.Where(pair => pair.Value == maxFrequency).Select(pair => pair.Key).ToList();
     }
+    
     //7
     public void Exist()
     {
@@ -202,4 +194,40 @@ public class DoublyLinkedLists<T>
 
     }
 
+    //8
+    public void DeleteOccurrence(T data)
+    {
+        var current = _head;
+        while (current != null)
+        {
+            if (EqualityComparer<T>.Default.Equals(current.Data!, data))
+            {
+                if (current.Prev != null)
+                {
+                    current.Prev.Next = current.Next;
+                }
+                else
+                {
+                    _head = current.Next;
+                }
+                if (current.Next != null)
+                {
+                    current.Next.Prev = current.Prev;
+                }
+                else
+                {
+                    _tail = current.Prev;
+                }
+                return;
+            }
+            current = current.Next;
+        }
+    }
+
+    //9
+    public void Clear()
+    {
+        _head = null;
+        _tail = null;
+    }
 }

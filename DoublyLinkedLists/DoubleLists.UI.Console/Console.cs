@@ -11,7 +11,7 @@ do
         case "1":
             Console.WriteLine("You chose to add data.");
             string option2 = string.Empty;
-            bool opcionValida = false;
+            bool optionValue = false;
 
             do
             {
@@ -29,7 +29,7 @@ do
                         var dataAtBeginning = Console.ReadLine();
                         if (dataAtBeginning != null)
                             list.InsertAtBeginning(dataAtBeginning);
-                        opcionValida = true;
+                        optionValue = true;
                         break;
 
                     case "b":
@@ -37,7 +37,7 @@ do
                         var dataGetAtEnd = Console.ReadLine();
                         if (dataGetAtEnd != null)
                             list.InsertAtEnd(dataGetAtEnd);
-                        opcionValida = true;
+                        optionValue = true;
                         break;
 
                     default:
@@ -45,7 +45,7 @@ do
                         break;
                 }
 
-            } while (!opcionValida);
+            } while (!optionValue);
 
             break;
 
@@ -78,7 +78,26 @@ do
             list.Exist();
             Console.WriteLine("------------------------------------------------");
             break;
+
+        case "8":
+            Console.Write("Enter the data to delete an occurrence: ");
+            var dataToDelete = Console.ReadLine();
+            if (dataToDelete != null)
+                list.DeleteOccurrence(dataToDelete);
+            Console.WriteLine("------------------------------------------------");
+            break;
+
+        case "9":
+            list.Clear();
+            Console.Write("List Empty. ");
+            break;
+
+        case "0":
+            Console.WriteLine("Exiting the program. Goodbye!");
+            break;
+         
     }
+    
 }
 while (option != "0");
 
@@ -88,9 +107,9 @@ string Menu()
     Console.WriteLine("1. Add at the beginning or at the end?.");
     Console.WriteLine("2. Show Beginning.");
     Console.WriteLine("3. Show List end.");
-    Console.WriteLine("4. Arrange descendently.");
+    Console.WriteLine("4. Sort correctly.");
     Console.WriteLine("5. Show the mode(s).");
-    Console.WriteLine("6. Show Graph");
+    Console.WriteLine("6. Show Graph.");
     Console.WriteLine("7. There is.");
     Console.WriteLine("8. Delete an occurrence.");
     Console.WriteLine("9. Delete all occurrences.");
