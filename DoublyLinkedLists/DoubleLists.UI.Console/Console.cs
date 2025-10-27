@@ -89,7 +89,7 @@ do
 
         case "9":
             list.Clear();
-            Console.Write("List Empty. ");
+            Console.WriteLine("List Empty. ");
             break;
 
         case "0":
@@ -118,5 +118,5 @@ string Menu()
 
     return Console.ReadLine() ?? "0";
 }
-Console.WriteLine("desea continuar?... 1 [si] or 0 [no]");
+Console.WriteLine("Do you want to continue?... 1 [Yes] or 0 [No]");
 option = Console.ReadLine();

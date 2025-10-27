@@ -64,7 +64,7 @@ public class DoublyLinkedLists<T>
             current = current.Next;
         }
 
-        datos.Sort(); // ordena alfabéticamente si T es string
+        datos.Sort(); 
 
         string resultado = string.Empty;
         foreach (var item in datos)
